@@ -1,6 +1,6 @@
 # terraform-aws-eventbridge
 
-## CloudWatch Event (EventBridge) Usage
+## Usage
 
 ```terraform
 module "schedule" {
