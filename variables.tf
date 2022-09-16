@@ -62,8 +62,50 @@ variable "input" {
   default     = null
 }
 
+variable "input_transformer" {
+  description = <<-EOT
+    Parameters used when you are providing a custom input to a target based on certain event data
+    example:
+    input_transformer = {
+    input_paths = {
+      severity="$.detail.severity",
+      Finding_Type="$.detail.type"
+    }
+    input_template = "\"You have a severity <severity> GuardDuty finding type <Finding_Type>\""
+  }
+  EOT
+  type = object({
+    input_paths    = map(any)
+    input_template = string
+  })
+  default = null
+}
+
 variable "role_arn" {
-  description = "(Optional) The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. Required if ecs_target is used or target in arn is EC2 instance, Kinesis data stream, Step Functions state machine, or Event Bus in different account or region."
+  description = "<<(Optional) The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. Required if ecs_target is used or target in arn is EC2 instance, Kinesis data stream, Step Functions state machine, or Event Bus in different account or region."
   type        = string
   default     = ""
+}
+
+variable "event_pattern" {
+  description = "(Optional) The event pattern described a JSON object. At least one of schedule_expression or event_pattern is required."
+  type        = string
+  default     = null
+}
+
+variable "retry_policy" {
+  type = object({
+    maximum_retry_attempts       = number
+    maximum_event_age_in_seconds = number
+  })
+  default = {
+    maximum_retry_attempts       = 100
+    maximum_event_age_in_seconds = 3600
+  }
+}
+
+variable "dead_letter_config_arn" {
+  description = "ARN of the SQS queue specified as the target for the dead-letter queue."
+  type        = string
+  default     = null
 }
