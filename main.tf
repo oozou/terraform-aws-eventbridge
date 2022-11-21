@@ -10,14 +10,15 @@ resource "aws_cloudwatch_event_rule" "this" {
 }
 
 resource "aws_cloudwatch_event_target" "this" {
+
   rule      = aws_cloudwatch_event_rule.this.name
   target_id = var.cloudwatch_event_target_id
   arn       = var.cloudwatch_event_target_arn
-  input     = var.input
 
+  input      = var.input
+  input_path = var.input_path
   dynamic "input_transformer" {
-
-    for_each = local.is_input_transformer ? [true] : []
+    for_each = var.input_transformer != null ? [true] : []
 
     content {
       input_paths    = var.input_transformer.input_paths

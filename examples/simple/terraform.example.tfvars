@@ -1,6 +1,6 @@
-prefix      = "example"
+prefix      = "oozou"
 environment = "devops"
-name        = "cms"
+name        = "demo"
 custom_tags = {
   "Remark" = "terraform-aws-eventbridge-example"
 }

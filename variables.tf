@@ -62,6 +62,12 @@ variable "input" {
   default     = null
 }
 
+variable "input_path" {
+  description = "(Optional) The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. Conflicts with input and input_transformer."
+  type        = string
+  default     = null
+}
+
 variable "input_transformer" {
   description = <<-EOT
     Parameters used when you are providing a custom input to a target based on certain event data
