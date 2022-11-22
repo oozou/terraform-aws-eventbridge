@@ -25,6 +25,13 @@ variable "tags" {
 /* -------------------------------------------------------------------------- */
 /*                              CloudWatch Event                              */
 /* -------------------------------------------------------------------------- */
+/* -------------------------------- Event Bus ------------------------------- */
+variable "bus_name" {
+  description = "A unique name for your EventBridge Bus"
+  type        = string
+  default     = "default"
+}
+
 /* ----------------------------- CloudWatch Rule ---------------------------- */
 variable "cloudwatch_event_rule_is_enabled" {
   type        = bool
@@ -45,6 +52,12 @@ variable "schedule_expression" {
 }
 
 /* ---------------------------- CLoudWatch Target --------------------------- */
+variable "cloudwatch_event_target" {
+  description = "A map of objects with EventBridge Target definitions."
+  type        = any
+  default     = {}
+}
+
 variable "cloudwatch_event_target_id" {
   description = "The unique target assignment ID. If missing, will generate a random, unique id."
   type        = string
