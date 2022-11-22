@@ -129,3 +129,12 @@ variable "dead_letter_config_arn" {
   type        = string
   default     = null
 }
+
+variable "run_command_targets" {
+  description = "(Optional) Parameters used when you are using the rule to invoke Amazon EC2 Run Command. Documented below. A maximum of 5 are allowed."
+  type = list(object({
+    key    = string
+    values = list(string)
+  }))
+  default = []
+}
