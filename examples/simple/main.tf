@@ -1,6 +1,6 @@
 data "aws_caller_identity" "this" {}
 
-module "demo_lambda" {
+module "lambda" {
   source  = "oozou/lambda/aws"
   version = "1.1.2"
 
@@ -41,9 +41,7 @@ module "schedule" {
   environment = var.environment
   name        = var.name
 
-  schedule_expression         = "cron(0/5 * ? * MON-FRI *)"
-  cloudwatch_event_target_arn = module.demo_lambda.arn
-
+  schedule_expression = "cron(0/5 * ? * MON-FRI *)"
   input = jsonencode(
     {
       cluster_name   = "oozou-devops-eks-cluster"
@@ -56,7 +54,7 @@ module "schedule" {
     }
   )
 
-  # role_arn = "arn:aws:iam::556611339911:role/service-role/StepFunctions-menual-deo-steps-function-role-617c576c"
+  cloudwatch_event_target_arn = module.lambda.arn
 
   tags = var.custom_tags
 }

@@ -69,6 +69,12 @@ variable "cloudwatch_event_target_arn" {
   type        = string
 }
 
+variable "role_arn" {
+  description = "(Optional) The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. Required if ecs_target is used or target in arn is EC2 instance, Kinesis data stream, Step Functions state machine, or Event Bus in different account or region."
+  type        = string
+  default     = ""
+}
+
 variable "input" {
   description = "Valid JSON text passed to the target. Conflicts with input_path and input_transformer."
   type        = string
@@ -100,12 +106,6 @@ variable "input_transformer" {
   default = null
 }
 
-variable "role_arn" {
-  description = "(Optional) The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. Required if ecs_target is used or target in arn is EC2 instance, Kinesis data stream, Step Functions state machine, or Event Bus in different account or region."
-  type        = string
-  default     = ""
-}
-
 variable "event_pattern" {
   description = "(Optional) The event pattern described a JSON object. At least one of schedule_expression or event_pattern is required."
   type        = string
@@ -113,6 +113,7 @@ variable "event_pattern" {
 }
 
 variable "retry_policy" {
+  description = "(Optional) Parameters used when you are providing retry policies. Documented below. A maximum of 1 are allowed."
   type = object({
     maximum_retry_attempts       = number
     maximum_event_age_in_seconds = number
@@ -124,7 +125,7 @@ variable "retry_policy" {
 }
 
 variable "dead_letter_config_arn" {
-  description = "ARN of the SQS queue specified as the target for the dead-letter queue."
+  description = "(Optional) Parameters used when you are providing a dead letter config. Documented below. A maximum of 1 are allowed."
   type        = string
   default     = null
 }

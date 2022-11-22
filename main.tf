@@ -33,6 +33,9 @@ resource "aws_cloudwatch_event_bus" "this" {
   tags = merge(local.tags, { "Name" = var.bus_name })
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                 Event Rule                                 */
+/* -------------------------------------------------------------------------- */
 resource "aws_cloudwatch_event_rule" "this" {
   name                = format("%s-event-rule", local.name)
   description         = var.event_description
@@ -46,6 +49,9 @@ resource "aws_cloudwatch_event_rule" "this" {
   tags = merge(local.tags, { "Name" : format("%s-event-rule", local.name) })
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                Event Target                                */
+/* -------------------------------------------------------------------------- */
 resource "aws_cloudwatch_event_target" "this" {
   for_each = var.cloudwatch_event_target
 
