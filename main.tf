@@ -53,8 +53,6 @@ resource "aws_cloudwatch_event_rule" "this" {
 /*                                Event Target                                */
 /* -------------------------------------------------------------------------- */
 resource "aws_cloudwatch_event_target" "this" {
-  count = length(var.cloudwatch_event_target) > 0 ? 1 : 0
-
   rule      = aws_cloudwatch_event_rule.this.name
   target_id = var.cloudwatch_event_target_id
   arn       = var.cloudwatch_event_target_arn
