@@ -53,7 +53,7 @@ resource "aws_cloudwatch_event_rule" "this" {
 /*                                Event Target                                */
 /* -------------------------------------------------------------------------- */
 resource "aws_cloudwatch_event_target" "this" {
-  for_each = var.cloudwatch_event_target
+  count = length(var.cloudwatch_event_target) > 0 ? 1 : 0
 
   rule      = aws_cloudwatch_event_rule.this.name
   target_id = var.cloudwatch_event_target_id
@@ -77,6 +77,38 @@ resource "aws_cloudwatch_event_target" "this" {
     content {
       key    = run_command_targets.value.key
       values = run_command_targets.value.values
+    }
+  }
+
+  dynamic "ecs_target" {
+    for_each = lookup(var.cloudwatch_event_target, "ecs_target", null) != null ? [lookup(var.cloudwatch_event_target, "ecs_target", null)] : []
+
+    content {
+      group               = lookup(ecs_target.value, "group", null)
+      launch_type         = lookup(ecs_target.value, "launch_type", null)
+      platform_version    = lookup(ecs_target.value, "platform_version", null)
+      task_count          = lookup(ecs_target.value, "task_count", null)
+      task_definition_arn = lookup(ecs_target.value, "task_definition_arn", null)
+
+      dynamic "network_configuration" {
+        for_each = lookup(ecs_target.value, "network_configuration", null) != null ? [lookup(ecs_target.value, "network_configuration", null)] : []
+
+        content {
+          subnets          = lookup(network_configuration.value, "subnets", null)
+          security_groups  = lookup(network_configuration.value, "security_groups", null)
+          assign_public_ip = lookup(network_configuration.value, "assign_public_ip", null)
+        }
+      }
+    }
+  }
+
+  dynamic "http_target" {
+    for_each = lookup(var.cloudwatch_event_target, "http_target", null) != null ? [lookup(var.cloudwatch_event_target, "http_target", null)] : []
+
+    content {
+      path_parameter_values   = lookup(http_target.value, "path_parameter_values", null)
+      query_string_parameters = lookup(http_target.value, "query_string_parameters", null)
+      header_parameters       = lookup(http_target.value, "header_parameters", null)
     }
   }
 
