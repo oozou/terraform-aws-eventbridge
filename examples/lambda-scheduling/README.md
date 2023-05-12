@@ -8,17 +8,22 @@
 
 ## Providers
 
-No providers.
+| Name                                              | Version |
+|---------------------------------------------------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.40.0  |
 
 ## Modules
 
-| Name                                                         | Source | Version |
-|--------------------------------------------------------------|--------|---------|
-| <a name="module_schedule"></a> [schedule](#module\_schedule) | ../../ | n/a     |
+| Name                                                         | Source           | Version |
+|--------------------------------------------------------------|------------------|---------|
+| <a name="module_lambda"></a> [lambda](#module\_lambda)       | oozou/lambda/aws | 1.1.2   |
+| <a name="module_schedule"></a> [schedule](#module\_schedule) | ../../           | n/a     |
 
 ## Resources
 
-No resources.
+| Name                                                                                                                       | Type        |
+|----------------------------------------------------------------------------------------------------------------------------|-------------|
+| [aws_caller_identity.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 
 ## Inputs
 
